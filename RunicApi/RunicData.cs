@@ -1,12 +1,17 @@
-﻿using System.Numerics;
+﻿using System.ComponentModel;
+using System.Numerics;
 
 namespace RunicApi
 {
     public class Data
     {
-        public static Data Instance { get; } = new Data();
+        public static Data Instance { get; set; }
         public Dictionary<string, List<string>> KeyLanguage { get; set; } = new Dictionary<string, List<string>>();
-        public Dictionary<string, RunicData> Translations { get; set; } = new Dictionary<string, RunicData>();
+        public Dictionary<string, Dictionary<string, RunicData>> Translations { get; set; } = new Dictionary<string, Dictionary<string, RunicData>>();
+        ~Data()
+        {
+            datamanger.File.SaveData(this);
+        }
     }
     public class RunicData
     {

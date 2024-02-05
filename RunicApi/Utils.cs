@@ -12,5 +12,15 @@
                 return ret;
             return generateKey();
         }
+        public static RunicData GetNewest(Dictionary<string, RunicData> data)
+        {
+            RunicData newest = new RunicData();
+            foreach (var item in data)
+            {
+                if (item.Value.Version.CompareTo(newest.Version) > 0)
+                    newest = item.Value;
+            }
+            return newest;
+        }
     }
 }

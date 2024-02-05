@@ -1,0 +1,23 @@
+{
+  "KeyLanguage": {
+    "EHTIW14N5BKGP6J5": [
+      "test"
+    ]
+  },
+  "Translations": {
+    "test": {
+      "1": {
+        "Language": "test",
+        "Version": "1",
+        "Data": [
+          {
+            "glyph": "1241245",
+            "Translations": [
+              "test"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

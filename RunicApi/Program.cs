@@ -5,6 +5,7 @@ namespace RunicApi
     {
         public static void Main(string[] args)
         {
+            Data.Instance = datamanger.File.LoadData();
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -30,7 +31,21 @@ namespace RunicApi
 
             app.MapControllers();
 
-            app.Run();
+            Task runapp = app.RunAsync();
+
+            Task save = new Task(async () =>
+            {
+                while (true)
+                {
+                    Console.WriteLine("Saving Data");
+                    datamanger.File.SaveData(Data.Instance);
+                    await Task.Delay(600000);
+                }
+            });
+            save.Start();
+            runapp.Wait();
+            runapp.Dispose();
+            save.Dispose();
         }
     }
 }

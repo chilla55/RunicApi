@@ -21,7 +21,7 @@ namespace RunicApi.Controllers
         {
             if (RunicApi.Data.Instance.Translations.ContainsKey(Language.ToString()))
             {
-                return new(RunicApi.Data.Instance.Translations[Language.ToString()]);
+                return new(Utils.GetNewest(RunicApi.Data.Instance.Translations[Language.ToString()]));
             }
             return new("Language Not Found");
         }
@@ -38,8 +38,9 @@ namespace RunicApi.Controllers
                 {
                     if (RunicApi.Data.Instance.KeyLanguage[key].Contains(value.Language))
                     {
-                        RunicApi.Data.Instance.Translations[value.Language].Version = value.Version;
-                        RunicApi.Data.Instance.Translations[value.Language].Data = value.Data;
+                        if (RunicApi.Data.Instance.Translations[value.Language].ContainsKey(value.Version))
+                            return new("Version Already Exists");
+                        RunicApi.Data.Instance.Translations[value.Language].Add(value.Version, value);
                     }
                     else
                         return new("Not Authorized");
@@ -73,7 +74,9 @@ namespace RunicApi.Controllers
                         return new("Not Authorized");
                     }
                 }
-                RunicApi.Data.Instance.Translations.Add(value.Language, value);
+                Dictionary<string, RunicData> ret = new();
+                ret.Add(value.Version, value);
+                RunicApi.Data.Instance.Translations.Add(value.Language, ret);
             }
             return new Message.PostResponse(key, "Success");
         }
